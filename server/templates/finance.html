@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block title %}Finance{% endblock %} {% block body
+%}
+
+<section>
+  <h2>Finance</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Job</th>
+        <th>Payment</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contract in current_user.get_contracts() %}
+      <tr>
+        <td>{{contract.job.title}}</td>
+        <td>{{contract.escrow[0].amount}}</td>
+        <td>{{contract.deadline}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Total earning: {{current_user.balance}}</h2>
+</section>
+{% endblock %}

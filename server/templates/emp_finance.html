@@ -1,0 +1,66 @@
+{% extends 'base.html' %} {% block title %}Finance{% endblock %} {% block body
+%}
+<section>
+  <h2>Manage Bridge Account</h2>
+  <p>
+    You can transfer fund to your Bridge account. Fund in Bride account can be
+    used to propose contract and hire freelancers.
+  </p>
+
+  <div class="flex justify-start">
+    <form
+      action="{{url_for('payment_bp.deposite')}}"
+      class="auth mt-3"
+      method="post"
+    >
+      <h3 class="center">Deposit Fund</h3>
+      <div class="field">
+        <input class="input" type="number" name="amount" placeholder="Amount" />
+      </div>
+      <div class="field">
+        <input class="input" type="submit" value="Deposit" />
+      </div>
+    </form>
+
+    <!-- <form action="" class="auth m-3">
+      <h3 class="center">Withdraw Fund</h3>
+      <div class="field">
+        <input class="input" type="number" placeholder="Amount" />
+      </div>
+      <div class="field">
+        <input class="input" type="submit" value="Withdraw" />
+      </div>
+    </form> -->
+  </div>
+</section>
+
+<section>
+  <h2>Payment history</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Job</th>
+        <th>Payment</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contract in current_user.get_contracts() %} {% if contract.status
+      == "F" %}
+      <tr>
+        <td>{{contract.job.title}}</td>
+        <td>{{contract.escrow[0].amount}}</td>
+        <td>{{contract.deadline}}</td>
+      </tr>
+      {% endif %} {% endfor %}
+    </tbody>
+  </table>
+
+  <p>
+    Total in escorw: <strong>{{current_user.get_fund_in_escrow()}} ETB</strong>
+  </p>
+  <p>Total in account: <strong>{{current_user.balance}} ETB</strong></p>
+
+  <!-- <p><button class="small">Withdraw</button></p> -->
+</section>
+{% endblock %}

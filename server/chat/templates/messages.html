@@ -1,0 +1,124 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{url_for('chat_bp.static', filename='css/style.css')}}"
+/>
+<script src="{{url_for('chat_bp.static', filename='js/socket.io.js')}}"></script>
+{% endblock %} {% block body %}
+
+<body></body>
+<header class="main">
+  <!-- Chat list -->
+  <section class="chat-list">
+    {% for chat in current_user.chats %}
+    <div class="chat-item" onclick="openChat(this)" data-chat_id="{{chat.id}}">
+      <div class="avatar">
+        <i class="fa fa-circle"></i>
+        <img
+          src="{{url_for('chat_bp.static', filename='icons/avatar.png')}}"
+          alt=""
+        />
+      </div>
+
+      <div class="group">
+        <h1 class="username">
+          {% if chat.u1.id==current_user.id %} {{"%s %s" % (chat.u2.firstname,
+          chat.u2.lastname)}}
+          <input
+            type="hidden"
+            id="userdata"
+            data-user_id="{{chat.u2.id}}"
+            data-user_type="{{chat.u2.user_type}}"
+            data-user_name="{{'%s %s' % (chat.u2.firstname, chat.u2.lastname)}}"
+          />
+          {% else %} {{"%s %s" % (chat.u1.firstname, chat.u1.lastname)}}
+          <input
+            type="hidden"
+            id="userdata"
+            data-user_id="{{chat.u1.id}}"
+            data-user_type="{{chat.u1.user_type}}"
+            data-user_name="{{'%s %s' % (chat.u1.firstname, chat.u1.lastname)}}"
+          />
+          {% endif %}
+        </h1>
+
+        {% if chat.messages %}
+        <p class="text">{{text_only(chat.messages[-1].content)}}</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </section>
+
+  <!-- Chat panel -->
+  <section>
+    <div class="chat-history" id="chat-history"></div>
+
+    <div class="user-input">
+      <div class="menu-bar">
+        <form
+          target="form-sink"
+          id="file-upload-form"
+          class="file-upload-form"
+          action="{{url_for('chat_bp.upload_file')}}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <label for="file">
+            <i class="fas fa-paperclip" aria-hidden="true"></i>
+          </label>
+          <input class="hidden" type="file" name="file" id="file" />
+          <span id="filename"></span>
+
+          <i
+            id="clear-file"
+            class="fas fa-trash fa-sm hidden"
+            aria-hidden="true"
+          ></i>
+        </form>
+        <iframe
+          class="hidden"
+          name="form-sink"
+          id="fileupload-form-sink"
+        ></iframe>
+
+        <ul class="options">
+          <li>
+            <button class="formatter" data-format="bold">
+              <strong>B</strong>
+            </button>
+          </li>
+          <li>
+            <button class="formatter" data-format="italic"><em>I</em></button>
+          </li>
+          <li>
+            <button class="formatter" data-format="underline">
+              <span class="underline">U</span>
+            </button>
+          </li>
+          <li>
+            <button id="send-message-btn">
+              <i class="fa fa-paper-plane" aria-hidden="true"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div id="text-input" contenteditable="true"></div>
+    </div>
+  </section>
+
+  <!-- Detail panel -->
+  {% if current_user.user_type == "EMPLOYER" %}
+  <section class="chat-detail" id="chat-detail"></section>
+  {% endif %}
+</header>
+
+<input type="hidden" id="user_token" value="{{current_user.token}}" />
+<input type="hidden" id="current_user_id" value="{{current_user.id}}" />
+<script src="{{url_for('chat_bp.static', filename='js/reusable-ui-components.js')}}"></script>
+<script src="{{url_for('chat_bp.static', filename='js/file-upload.js')}}"></script>
+<script src="{{url_for('chat_bp.static', filename='js/text-formater.js')}}"></script>
+<script src="{{url_for('chat_bp.static', filename='js/main.js')}}"></script>
+
+{% endblock %}

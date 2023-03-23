@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block title %}Finance{% endblock %} {% block body
+%}
+<section>
+  <h2>Payment history</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Job</th>
+        <th>Payment</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contract in current_user.get_contracts() %} {% if contract.status
+      == "F" %}
+      <tr>
+        <td>{{contract.job.title}}</td>
+        <td>{{contract.escrow[0].amount}}</td>
+        <td>{{contract.deadline}}</td>
+      </tr>
+      {% endif %} {% endfor %}
+    </tbody>
+  </table>
+
+  <p>
+    Total in escorw: <strong>{{current_user.get_fund_in_escrow()}} ETB</strong>
+  </p>
+  <p>Total in account: <strong>{{current_user.balance}} ETB</strong></p>
+
+  <p><button class="small">Withdraw</button></p>
+</section>
+{% endblock %}

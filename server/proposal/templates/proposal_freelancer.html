@@ -1,0 +1,85 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{url_for('job_bp.static', filename='css/style.css')}}"
+/>
+{% endblock %} {% block body %} {% if message %}
+<div class="message">{{message}}</div>
+{% endif %}
+<section class="container" style="min-height: 60vh">
+  <div class="call-to-action">
+    <button data-target="active" class="tab active">Sent Proposals</button>
+  </div>
+
+  <div class="tab-content" id="active">
+    {% if current_user.proposals | length == 0 %}
+    <p>You haven't sent any proposals yet.</p>
+    {% endif %} {% for proposal in current_user.proposals %}
+    <div class="underlined">
+      <div class="user-title" data-target="{{proposal.job_id}}">
+        <div class="title">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <h4 style="margin-left: 1rem">{{proposal.job.title}}</h4>
+        </div>
+
+        <a href="{{url_for('proposal_bp.delete', job_id=proposal.job_id)}}"
+          ><i class="fa fa-times" aria-hidden="true"></i
+        ></a>
+      </div>
+
+      <div class="hidden" id="{{proposal.job_id}}">
+        <div class="job-desc">
+          <h4>Cover letter</h4>
+          <p class="highlight">{{proposal.content}}</p>
+        </div>
+        {% if proposal.attachments %}
+        <div class="job-desc">
+          <h4>Attachments</h4>
+          <p class="highlight">
+            <a href="{{url_for('files', id=proposal.attachments.file.id)}}"
+              >{{proposal.attachments.file.file_name}}</a
+            >
+          </p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+  const tab_btns = document.querySelectorAll(".tab");
+  const tabs = document.querySelectorAll(".tab-content");
+  tab_btns.forEach((tabbtn) => {
+    tabbtn.addEventListener("click", () => {
+      tabs.forEach((tab) => tab.classList.toggle("hidden", true)); // hide all tabs
+      tab_btns.forEach((tab) => tab.classList.toggle("active", false)); // remove underline from all tab btns
+      const targetid = tabbtn.dataset.target;
+      document.getElementById(targetid)?.classList.toggle("hidden", false); //unhide selected tab
+      tabbtn.classList.toggle("active", true); //underline selected tab header
+    });
+  });
+
+  let titles = document.querySelectorAll(".user-title");
+  titles.forEach((title) => {
+    title.addEventListener("click", () => {
+      const chevron = title.querySelector("i");
+      if (chevron?.classList.contains("fa-chevron-right")) {
+        chevron?.classList.toggle("fa-chevron-right", false);
+        chevron?.classList.toggle("fa-chevron-down", true);
+        document
+          .getElementById(title.dataset.target)
+          ?.classList.toggle("hidden", false);
+      } else {
+        chevron?.classList.toggle("fa-chevron-right", true);
+        chevron?.classList.toggle("fa-chevron-down", false);
+        document
+          .getElementById(title.dataset.target)
+          ?.classList.toggle("hidden", true);
+      }
+    });
+  });
+</script>
+
+{% endblock %}

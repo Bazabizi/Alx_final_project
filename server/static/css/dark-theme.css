@@ -1,0 +1,21 @@
+:root {
+  --primary-fg: #f7ece1;
+  --primary-bg: #111213;
+  --secondary-fg: #06001f;
+  --secondary-bg: #a398cf;
+  --link: #d4d4d4;
+  --link-hover: #8778c2;
+  --shadow: rgba(255, 255, 255, 0.3);
+}
+:root {
+  --primary-bg: #222c36;
+  --secondary-fg: #3a3f44;
+  --secondary-bg: #a398cf;
+}
+/* :root {
+  --primary-fg: #cac4ce;
+  --primary-bg: #242038;
+  --secondary-fg: #725ac1;
+  --secondary-bg: #8d86c9;
+  --hover: #f7ece1;
+} */

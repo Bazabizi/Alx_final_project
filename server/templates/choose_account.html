@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<header class="auth">
+    <h3>Join as freelancer or employer</h3>
+
+    <div class="flex-center">
+        <div class="type">
+            <a href="{{url_for('register_employer')}}">
+                As client, looking to hire freelancers
+            </a>
+        </div>
+        <div class="type">
+            <a href="{{url_for('register_freelancer')}}">
+                As freelancer, looking for job
+            </a>
+        </div>
+        
+    </div>             
+</header>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{url_for('job_bp.static', filename='css/style.css')}}"
+/>
+{% endblock %} {% block body %} {% if message %}
+<div class="message">{{message}}</div>
+{% endif %}
+<section class="container">
+  <div class="call-to-action">
+    <button id="post-btn" class="tab" onclick="post()">Create new job</button>
+    <button id="view-btn" class="tab" onclick="showPosted()">
+      Active jobs
+    </button>
+  </div>
+  <div class="posted-jobs"></div>
+  <div class="post-form">
+    <form action="{{url_for('job_bp.post')}}" class="form" method="POST">
+      <div class="input">
+        <h3>Job Title</h3>
+        <input type="text" name="title" id="title" required />
+      </div>
+      <div class="input">
+        <h3>Experience Level</h3>
+        <select name="experience-level" id="experience-level" required>
+          <option value="ENTRY">Entry</option>
+          <option value="INTERMEDIATE">Intermediate</option>
+          <option value="EXPERT">Expert</option>
+        </select>
+      </div>
+      <div class="input">
+        <h3>Budget</h3>
+        <input type="number" step="0.01" name="budget" id="budget" required />
+      </div>
+      <div class="input">
+        <h3 for="description">Description</h3>
+        <textarea name="description" id="description" required></textarea>
+      </div>
+      <div>
+        <button type="submit">Post Job</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  const url = new URL(document.URL);
+  BASE_URL = `http://${url.hostname}:${url.port}`;
+
+  function post() {
+    document.getElementById("post-btn").classList.toggle("active", true);
+    document.getElementById("view-btn").classList.toggle("active", false);
+    document.querySelector(".post-form").classList.toggle("show", true);
+    document.querySelector(".posted-jobs").classList.toggle("show", false);
+  }
+
+  post();
+
+  async function showPosted() {
+    document.getElementById("post-btn").classList.toggle("active", false);
+    document.getElementById("view-btn").classList.toggle("active", true);
+    document.querySelector(".posted-jobs").classList.toggle("show", true);
+    document.querySelector(".post-form").classList.toggle("show", false);
+
+    let jobs = await fetch(`${BASE_URL}/job/user/{{current_user.id}}`);
+
+    jobs = await jobs.json();
+
+    let contain = document.querySelector(".posted-jobs");
+
+    contain.innerHTML = "";
+
+    for (job of jobs) {
+      contain.innerHTML += `
+      <div class="ccard">
+        <div class="ccard-rightmost">
+          <div class="ccard-left">
+            <i class="ccard-img fa-solid fa-briefcase fa-2x"></i>
+          </div>
+          <div class="ccard-right" onclick="window.location.href='${BASE_URL}/job/${job.id}'">
+              <div class="ccard-title">
+                  <span>${job.title}</span>
+                  <span class="ccard-xp">[${job.experience_level}]</span>
+              </div>
+              <div class="ccard-desc">
+                  ${job.description}
+              </div>          
+              <p class="ccard-budget">
+                ${job.budget} ETB
+              </p>
+          </div>
+        </div>
+        
+        <div class="why" onclick="deletePost('${job.id}')"><i class="fa fa-times fa-2x"></i></div>
+      </div>`;
+    }
+  }
+
+  async function deletePost(id) {
+    await fetch(`${BASE_URL}/job/delete`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id,
+      }),
+    });
+
+    showPosted();
+  }
+</script>
+{% endblock %}

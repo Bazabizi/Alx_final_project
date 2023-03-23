@@ -1,0 +1,157 @@
+{% extends 'base.html' %} {% block title %}Home{% endblock %} {% block body %}
+<header>
+  <h1 id="main-title">Freelancers</h1>
+
+  <h3>A simple way to conduct business</h3>
+
+  <div class="call-to-action">
+    <button onclick='window.location.href="{{url_for("register")}}"'>
+      Get Started
+    </button>
+    <a class="button" href="#how">Learn how it works</a>
+  </div>
+</header>
+
+<section>
+  <h1>Services</h1>
+
+  <div class="cards-container">
+    <button class="left">
+      <i class="fa fa-chevron-circle-left fa-2x" aria-hidden="true"></i>
+    </button>
+    <button class="right">
+      <i class="fa fa-chevron-circle-right fa-2x" aria-hidden="true"></i>
+    </button>
+    <div class="cards">
+      <div class="card">
+        <h1 class="card-title card-white">Copy Writing</h1>
+        <h2 class="card-desc"></h2>
+        <div class="card-img">
+          <img
+            src="{{url_for('static', filename='img/copy-writing.webp')}}"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="card">
+        <h1 class="card-title card-white">Programming</h1>
+        <h2 class="card-desc"></h2>
+        <div class="card-img">
+          <img
+            src="{{url_for('static', filename='img/programming.jpg')}}"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="card">
+        <h1 class="card-title card-white">Graphic Design</h1>
+        <h2 class="card-desc"></h2>
+        <div class="card-img">
+          <img
+            src="{{url_for('static', filename='img/graphic-desin.png')}}"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="card">
+        <h1 class="card-title card-white">Data Entry</h1>
+        <h2 class="card-desc"></h2>
+        <div class="card-img">
+          <img
+            src="{{url_for('static', filename='img/data-entry.jpg')}}"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="card">
+        <h1 class="card-title card-white">Marketing &amp; Sales</h1>
+        <h2 class="card-desc"></h2>
+        <div class="card-img">
+          <img
+            src="{{url_for('static', filename='img/marketing.jpg')}}"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h1>Explore Categories</h1>
+
+  <div class="category-container">
+    <div class="category">
+      <div class="icon">
+        <i class="fa fa-handshake fa-xl" aria-hidden="true"></i>
+      </div>
+      <p class="desc">Business</p>
+    </div>
+    <div class="category">
+      <div class="icon">
+        <i class="fa fa-code fa-xl" aria-hidden="true"></i>
+      </div>
+      <p class="desc">Programming &amp; Tech</p>
+    </div>
+    <div class="category">
+      <div class="icon">
+        <i class="fa fa-book fa-xl" aria-hidden="true"></i>
+      </div>
+      <p class="desc">Writing</p>
+    </div>
+    <div class="category">
+      <div class="icon">
+        <i class="fa fa-database fa-xl" aria-hidden="true"></i>
+      </div>
+      <p class="desc">Data Entry</p>
+    </div>
+    <div class="category">
+      <div class="icon">
+        <i class="fa fa-coins fa-xl" aria-hidden="true"></i>
+      </div>
+      <p class="desc">Marketing &amp; Sales</p>
+    </div>
+    <div class="category">
+      <div class="icon">
+        <i class="fa fa-pencil fa-xl" aria-hidden="true"></i>
+      </div>
+      <p class="desc">Graphic Design</p>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <h1>About Bridge</h1>
+
+  <p>
+    Our mission to create economic opportunities so people have better lives has
+    taken us so much further. As a result, we’ve become the world’s work
+    marketplace where every day businesses of all sizes and independent talent
+    from around the globe meet here to accomplish incredible things.
+  </p>
+
+  <h1>How does it work?</h1>
+
+  <p>
+    If you’re a client that’s come here to get things done, use this workforce
+    of independent talent to build faster and transform your business. If you’re
+    independent talent that’s come here to realize your potential, know that you
+    are a valuable and instrumental part of someone’s team.
+  </p>
+
+  <p>
+    We see your vision, and everything we do is an effort to help you make the
+    connections that will turn that vision into reality, by building your
+    Virtual Talent Bench of trusted people. The impact is both economic and
+    personal, in the everyday and in the long run. When you find the right
+    people, you stop working to get by and start working strategically.
+  </p>
+</section>
+<script>
+  document.querySelectorAll(".card").forEach((cat) => {
+    cat.addEventListener("click", (e) => {
+      window.location.href = "{{url_for('job_bp.search')}}";
+    });
+  });
+</script>
+{% endblock %}

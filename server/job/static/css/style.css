@@ -1,0 +1,122 @@
+.cards {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    background: var(--primary-bg);
+    position: relative;
+}
+
+.card-title {
+    position: absolute;
+    top: 0;
+    font-weight: 800;
+}
+
+.card-img {
+    z-index: 1;
+}
+
+.message {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #06b31a;    
+    text-align: center;
+    padding-top: 1rem;
+    animation: fadeout 3s ease-in-out forwards;
+}
+
+.post-form {
+    display: none;
+}
+
+.post-form.show {
+    display: block;
+}
+
+.posted-jobs {
+    display: none;
+    margin-top: 3rem;
+}
+
+.posted-jobs.show {
+    display: block    
+}
+
+.ccard-rightmost {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+}
+
+.ccard .fa-times:hover { 
+    color: rgba(240, 21, 21, 0.699); 
+    transition: color .1s ease-in-out;  
+}
+
+@keyframes fadeout {
+    0% {        
+        opacity: 1;
+    }
+    100% {        
+        opacity: 0;
+    }
+}
+
+.job-desc {
+    max-width: 70%;
+    margin: 1rem 0;           
+}
+
+.highlight {
+    background-color: rgb(231, 248, 244);
+    padding: .1rem .5rem;
+    font-weight: 500;
+}
+
+.highlight-warning {
+    background-color: rgb(245, 255, 105);
+    padding: .1rem .5rem;
+    font-weight: 500;
+}
+
+.user-title {
+    margin-top: .5rem;
+    padding: .7rem;
+    background-color: powderblue;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.user-title .title {
+    display: flex;
+    align-items: center;
+}
+
+.user-title:hover {    
+    background-color: rgba(176, 224, 230, 0.767);
+}
+
+.grid {
+    max-width: 100%;
+    min-height: 75vh;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.grid select {
+    max-width: 10rem;
+}
+
+@media (max-width: 1000px) {
+    .job-desc {
+        max-width: 100%
+      }
+      
+.grid {
+    display: block;    
+}
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/light-theme.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      id="dark-theme"
+      href="{{url_for('static', filename='css/dark-theme.css')}}"
+      disabled
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,700;1,700&family=Work+Sans:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <nav>
+      <div class="logo">
+        <a href="{{url_for('home')}}"
+          ><img src="{{url_for('static', filename='img/logo.png')}}" alt="Logo"
+        /></a>
+      </div>
+
+      <ul>
+        {% if current_user.firstname %}
+        <li><a href="{{url_for('finance')}}">Finance</a></li>
+
+        {% if current_user.user_type == "EMPLOYER" %}
+        <li><a href="{{url_for('job_bp.job')}}">Jobs</a></li>
+        {% else %}
+        <li><a href="{{url_for('proposal_bp.sent')}}">Proposals</a></li>
+        {% endif %}
+        <li><a href="{{url_for('contract_bp.contracts')}}">Contracts</a></li>
+        <li><a href="{{url_for('chat_bp.message')}}">Messages</a></li>
+
+        {% endif %}
+
+        <li><a href="{{url_for('job_bp.search')}}">Search</a></li>
+
+        {% if current_user.firstname %}
+        <li><a href="{{url_for('logout')}}">Log out</a></li>
+        {% else %}
+        <li><a href="{{url_for('login')}}">Log in</a></li>
+        <li><a href="{{url_for('register')}}">Sign up</a></li>
+        {% endif %}
+
+        <li>
+          <a href="#" onclick="toggleTheme()"
+            ><i class="fas fa-circle-half-stroke" aria-hidden="true"></i
+          ></a>
+        </li>
+      </ul>
+    </nav>
+
+    {% block body %}{% endblock %}
+
+    <footer>
+      <div class="footer-top">
+        <div class="footer-container">
+          <h3>Company Name</h3>
+
+          <ul>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Help and support</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-container">
+          <h3>About</h3>
+
+          <ul>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">How it works</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-container">
+          <h3>Terms</h3>
+
+          <ul>
+            <li><a href="#">Privacy policy</a></li>
+            <li><a href="#">Terms &amp; services</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>Freelancers &copy; 2022</p>
+
+        <ul class="contacts">
+          <li>
+            <a href="#"><i class="fab fa-telegram" aria-hidden="true"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+
+    <input type="hidden" id="user_token" value="{{current_user.token}}" />
+
+    <script>
+      const toggleTheme = () => {
+        document.getElementById("dark-theme").disabled =
+          !document.getElementById("dark-theme").disabled;
+
+        if (document.getElementById("dark-theme").disabled) {
+          localStorage.setItem("theme", "light");
+        } else {
+          localStorage.setItem("theme", "dark");
+        }
+      };
+
+      window.onload = () => {
+        if (localStorage.getItem("theme") === "dark")
+          document.getElementById("dark-theme").disabled = false;
+      };
+    </script>
+  </body>
+</html>

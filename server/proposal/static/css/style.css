@@ -1,0 +1,53 @@
+.cards {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    background: var(--primary-bg);
+    position: relative;
+}
+
+.card-title {
+    position: absolute;
+    top: 0;
+    font-weight: 800;
+}
+
+.card-img {
+    z-index: 1;
+}
+
+.message {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #06b31a;    
+    text-align: center;
+    padding-top: 1rem;
+    animation: fadeout 3s ease-in-out forwards;
+}
+
+.post-form {
+    display: none;
+}
+
+.post-form.show {
+    display: block;
+}
+
+.posted-jobs {
+    display: none
+}
+
+.posted-jobs.show {
+    display: block
+}
+
+@keyframes fadeout {
+    0% {        
+        opacity: 1;
+    }
+    100% {        
+        opacity: 0;
+    }
+}

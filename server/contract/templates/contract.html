@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{url_for('contract_bp.static', filename='css/style.css')}}"
+/>
+{% endblock %} {% block body %}
+<section class="container">
+  {% if status == 200 %}
+  <div class="message">
+    <p>
+      New contract has been created and sent to
+      <span>{{worker.firstname}} {{worker.lastname}}</span>. Please wait for
+      their response.
+    </p>
+    <p>
+      If <span>{{worker.firstname}} {{worker.lastname}}</span> rejects the
+      contract or doesn't respond in 3 Days the fund held in escrow will be
+      refunded.
+    </p>
+  </div>
+  {% else %}
+  <div class="message">{{message}}</div>
+  {% endif %}
+</section>
+{% endblock %}

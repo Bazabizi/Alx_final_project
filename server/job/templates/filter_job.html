@@ -1,0 +1,91 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{url_for('job_bp.static', filename='css/style.css')}}"
+/>
+<script
+  src="https://kit.fontawesome.com/935ba23ae2.js"
+  crossorigin="anonymous"
+></script>
+{% endblock %} {% block body %}
+
+<section class="grid">
+  <div>
+    <h3>Experience level</h3>
+    <div class="job-desc">
+      <select id="filter">
+        <option value="">Any</option>
+        <option value="ENTRY">Entry</option>
+        <option value="INTERMEDIATE">Intermediate</option>
+        <option value="EXPERT">Expert</option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <div class="search">
+      <input id="search-bar" type="text" placeholder="search jobs..." />
+      <button type="submit" onclick="filter()">Search</button>
+    </div>
+    <div class="posted-jobs"></div>
+  </div>
+</section>
+
+<script>
+  const url = new URL(document.URL);
+  BASE_URL = `http://${url.hostname}:${url.port}`;
+  async function filter() {
+    const keyword = document.getElementById("search-bar").value.toLowerCase();
+
+    document.querySelector(".posted-jobs").classList.toggle("show", true);
+
+    let jobs = await fetch(`${BASE_URL}/job/filterJob`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        key: keyword,
+        level: document.getElementById("filter").value,
+      }),
+    });
+    jobs = await jobs.json();
+
+    let noJobs = true;
+    let contain = document.querySelector(".posted-jobs");
+    contain.innerHTML = "";
+    for (job of jobs) {
+      noJobs = false;
+      contain.innerHTML += `<div class="ccard justify-start" onclick="window.location.href='${BASE_URL}/job/${job.id}'">
+            <div class="ccard-left">
+                <i class="ccard-img fa-solid fa-briefcase fa-2x"></i>
+            </div>
+            <div class="ccard-right">
+                <div class="ccard-title">
+                    <span>${job.title}</span>
+                    <span class="ccard-xp">[${job.experience_level}]</span>
+                </div>
+                <div class="ccard-desc">
+                    ${job.description}
+                </div>          
+                <p class="ccard-budget">
+                    ${job.budget} ETB
+                </p>
+            </div>
+        </div>`;
+    }
+    if (noJobs) {
+      contain.innerHTML += `<div>No Matching Jobs</div>`;
+    }
+  }
+
+  filter();
+
+  document.getElementById("search-bar").addEventListener("keyup", (e) => {
+    //return
+    if (e.keyCode == 13) {
+      filter();
+    }
+  });
+</script>
+
+{% endblock %}

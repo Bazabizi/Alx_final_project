@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{url_for('contract_bp.static', filename='css/style.css')}}"
+/>
+{% endblock %} {% block body %}
+<section class="container">
+  {% if status == 200 %}
+  <div class="message">
+    <p>
+      Refund request has been sent to
+      <span>{{worker.firstname}} {{worker.lastname}}</span>. Please wait for
+      their response.
+    </p>
+  </div>
+  {% else %}
+  <div class="message">{{message}}</div>
+  {% endif %}
+</section>
+{% endblock %}

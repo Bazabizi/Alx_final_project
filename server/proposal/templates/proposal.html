@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{url_for('job_bp.static', filename='css/style.css')}}"
+/>
+{% endblock %} {% block body %} {% if message %}
+<div class="message">{{message}}</div>
+{% endif %}
+<section class="container">
+  <div class="post-form show">
+    <form
+      action="{{url_for('proposal_bp.send_proposal')}}"
+      class="form"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <h3>Proposal for {{job.title}}</h3>
+      <div class="input">
+        <input type="hidden" value="{{job.id}}" name="job_id" />
+        <h3 for="description">Cover letter</h3>
+        <textarea name="content" id="description" required></textarea>
+      </div>
+      <div class="input">
+        <h3 for="description">Attachments</h3>
+        <input type="file" name="attachment" />
+      </div>
+      <div>
+        <button type="submit">Send proposal</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% endblock %}
