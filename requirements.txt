@@ -1,0 +1,10 @@
+autopep8
+flask
+flask-login
+flask-socketio
+flask-sqlalchemy
+mysqlclient
+python-dotenv
+requests
+python-dotenv
+simple-websocket

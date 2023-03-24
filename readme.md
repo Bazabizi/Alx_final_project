@@ -34,3 +34,6 @@
 - `pip install virtualenv`
 - `virtualenv venv`
 - `venv\Scripts\activate`
+Any time the content of requirements.txt change
+venv\Scripts\activate
+pip install -r requirements.txt
